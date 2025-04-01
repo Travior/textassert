@@ -1,7 +1,7 @@
 [project]
 name = "textassert"
-version = "0.1.0"
-description = "Add your description here"
+version = "0.2.0"
+description = "A tool to use LLMs to run a test suite against your texts"
 readme = "README.md"
 authors = [
     { name = "Travior", email = "30752199+Travior@users.noreply.github.com" }
