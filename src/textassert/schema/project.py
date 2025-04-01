@@ -1,16 +1,16 @@
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 from pathlib import Path
 
 PROJECT_FILENAME = Path(".textassert")
 SETTINGS_FILEPATH = Path.home() / Path(".textassert/settings.json")
 
 class Feedback(BaseModel):
-    quote: str = Field(...)
-    feedback: str = Field(...)
+    quote: str
+    feedback: str
 
 class CriterionResponse(BaseModel):
-    passed: bool = Field(...)
-    feedbacks: list[Feedback] = Field(description="A list of feedbacks on the text. If there are no issues, return an empty list. This can NEVER be null.")
+    passed: bool
+    feedbacks: list[Feedback]
 
 class Criterion(BaseModel):
     name: str
