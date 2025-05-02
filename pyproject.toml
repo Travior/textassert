@@ -1,6 +1,6 @@
 [project]
 name = "textassert"
-version = "0.2.0"
+version = "0.2.1"
 description = "A tool to use LLMs to run a test suite against your texts"
 readme = "README.md"
 authors = [
