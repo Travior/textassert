@@ -6,7 +6,7 @@ import re
 from openai import AsyncOpenAI
 import instructor
 
-MODEL = "openai/gpt-4o"
+MODEL = "google/gemini-2.5-pro-preview-03-25"
 
 
 def output_processor(resp: str) -> str:
@@ -88,7 +88,7 @@ def generate_single_criterion_user_prompt(
 async def send_request(
     criterion: Criterion, project: Project, settings: Settings
 ) -> dict[str, Any]:
-    client = instructor.from_openai(AsyncOpenAI(base_url="https://openrouter.ai/api/v1", api_key=settings.openrouter_api_key), mode=instructor.Mode.TOOLS)
+    client = instructor.from_openai(AsyncOpenAI(base_url="https://openrouter.ai/api/v1", api_key=settings.openrouter_api_key), mode=instructor.Mode.JSON)
     messages = [
         {
             "role": "system",
@@ -113,7 +113,7 @@ async def send_request(
         model=MODEL,
         messages=messages, # type: ignore
         response_model=CriterionResponse,
-        extra_body={"provider":{"require_parameters":True}}
+        extra_body={"provider":{"require_parameters":True}, "temperature": 0.2}
     )
     if isinstance(response, CriterionResponse):
         return {

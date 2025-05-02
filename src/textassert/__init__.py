@@ -34,12 +34,12 @@ def _flush_settings(settings: Settings):
 def file(ctx, filename: str):
     """CLI tool that takes a filename as first argument"""
     ctx.ensure_object(dict)
-    ctx.obj['filename'] = Path(filename).name
+    ctx.obj['filename'] = Path(filename).resolve().as_posix()
 
     filename = ctx.obj['filename']
     if not Path(filename).exists():
         print(f"File {filename} does not exist")
-        return
+        quit(1)
     if not (Path(filename).parent / PROJECT_FILENAME).exists():
         project_file = ProjectFile(projects=[])
     else:
@@ -95,7 +95,10 @@ def add(ctx):
     project_file = ctx.obj['project_file']
     name = click.prompt("Enter the name of the criterion you want your text to be evaluated on")
     description = click.prompt("Enter the description of the criterion you want your text to be evaluated on")
-    project_file.projects[0].criteria.append(Criterion(name=name, description=description, passed=False, feedbacks=[]))
-    _flush_project_file(project_file, ctx.obj['filename'])
+    for project in project_file.projects:
+        if project.file == ctx.obj['filename']:
+            project.criteria.append(Criterion(name=name, description=description, passed=False, feedbacks=[]))
+            _flush_project_file(project_file, ctx.obj['filename'])
+            break
 
 
